@@ -11,12 +11,13 @@ public class SwingGui {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setLayout(new BorderLayout(8, 8));
             JLabel titleLabel = new JLabel("School Canteen Kiosk", SwingConstants.CENTER);
-            titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
+            titleLabel.setFont(new Font("Times New Roman", Font.BOLD, 24));
             frame.add(titleLabel, BorderLayout.NORTH);
 
             JPanel menuPanel = new JPanel();
             JPanel orderPanel = new JPanel();
             JPanel receiptPanel = new JPanel();
+
 
             menuPanel.setBorder(BorderFactory.createTitledBorder("Menu"));
             orderPanel.setBorder(BorderFactory.createTitledBorder("Order"));
@@ -32,9 +33,10 @@ public class SwingGui {
             "Tapsilog", "Siomai rice (4 pcs)",
             "Pancit canton", "Lugaw with egg"
             };
+            
 
             int[] dishPrices = {75, 89, 95, 49, 35, 38};
-            
+
             String[] displayDishes = new String[dishes.length];
             for (int i = 0; i < dishes.length; i++) {
                 displayDishes[i] = dishes[i] + " - PHP " + dishPrices[i];
@@ -45,9 +47,11 @@ public class SwingGui {
 
             menuPanel.setLayout(new BorderLayout(5, 5));
             menuPanel.add(new JScrollPane(dishList), BorderLayout.CENTER);
+            dishList.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 
             JLabel selectedLabel = new JLabel("Selected: none");
             menuPanel.add(selectedLabel, BorderLayout.SOUTH);
+            selectedLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 
             dishList.addListSelectionListener(e -> {
                 if (!e.getValueIsAdjusting()) {
