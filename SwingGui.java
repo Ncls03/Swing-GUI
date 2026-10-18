@@ -161,7 +161,7 @@ public class SwingGui {
                 String SelectedDrink = (String) drinkComboBox.getSelectedItem();
                 int drinkPrice = drinkPrices[SelectedDrinkIndex];
                 int quantityVal = Quantity.getSelectedIndex() + 1;
-                int takeOutFee = takeOut.isSelected() ? 15 : 0;
+                int takeOutFee = takeOut.isSelected() ? 5 : 0;
         
 
             // calculate add-ons total
