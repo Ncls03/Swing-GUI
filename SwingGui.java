@@ -1,6 +1,7 @@
 // Anthony John Megriño & Mirkyla Nicolas
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import javax.swing.*;
 
 
@@ -11,6 +12,27 @@ public class SwingGui {
             JFrame frame = new JFrame("School Canteen Kiosk");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setLayout(new BorderLayout(8, 8));
+            JMenuBar menuBar = new JMenuBar();
+            JMenu fileMenu = new JMenu("File");
+            JMenuItem newOrderItem = new JMenuItem("New Order");
+            JMenuItem exitItem = new JMenuItem("Exit");
+
+            newOrderItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK));
+
+            fileMenu.add(newOrderItem);
+            fileMenu.addSeparator();
+            fileMenu.add(exitItem);
+
+            JMenu helpMenu = new JMenu("Help");
+            JMenuItem aboutItem = new JMenuItem("About");
+            helpMenu.add(aboutItem);
+
+            menuBar.add(fileMenu);
+            menuBar.add(helpMenu);
+
+            frame.setJMenuBar(menuBar);
+
+
             JLabel titleLabel = new JLabel("School Canteen Kiosk", SwingConstants.CENTER);
             titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
             frame.add(titleLabel, BorderLayout.NORTH);
@@ -199,11 +221,43 @@ public class SwingGui {
 
             // Information Dialog
             JOptionPane.showMessageDialog(frame, "Thank you for your order!\nYour queue number is " +
-            currentQueueNumber + ".", "Order Sucessful", JOptionPane.INFORMATION_MESSAGE);
+            currentQueueNumber + ".", "Order Successful", JOptionPane.INFORMATION_MESSAGE);
 
             queueNumber++;
 
             });
+
+            newOrderItem.addActionListener(e -> {
+                dishList.clearSelection();
+            
+                dineIn.setSelected(true);
+                takeOut.setSelected(false);
+            
+                for (JCheckBox addOn : addOnBoxes) {
+                    addOn.setSelected(false);
+                }
+            
+                drinkComboBox.setSelectedIndex(0);
+                Quantity.setSelectedIndex(0);
+                discountCheckBox.setSelected(false);
+            
+                receiptArea.setText("");
+                selectedLabel.setText("Selected: none");
+            });
+            
+            exitItem.addActionListener(e -> System.exit(0));
+            
+            aboutItem.addActionListener(e ->
+                JOptionPane.showMessageDialog(
+                    frame,
+                    "School Canteen Kiosk\n"
+                    + "Developed by:\n"
+                    + "Anthony John Megriño\n"
+                    + "Mirkyla Nicolas",
+                    "About",
+                    JOptionPane.INFORMATION_MESSAGE
+                )
+            );
 
             frame.setSize(640, 420);
             frame.setLocationRelativeTo(null);
