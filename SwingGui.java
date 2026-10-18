@@ -145,13 +145,9 @@ public class SwingGui {
 
             int setPerPrice = dishPrice + addOnTotal + drinkPrice;
             int initialTotal = setPerPrice * quantityVal + takeOutFee;
-            int discountPrice = 0;
-            if (discountCheckBox.isSelected()){
-                discountPrice = (int) Math.round(initialTotal * 0.20);
-            }
-            int totalPrice = initialTotal - discountPrice;
+            
 
-            // Receipt printing
+            // Receipt 
             StringBuilder receiptText = new StringBuilder();
             receiptText.append(String.format("%-25s PHP %d\n", dishes[selectedDishIndex], dishPrice));
             receiptText.append(addOns);
@@ -164,12 +160,19 @@ public class SwingGui {
             if (takeOut.isSelected()) {
                     receiptText.append(String.format("%-25s PHP %d\n", "Take Out Fee", takeOutFee));
                 }
-            receiptText.append(String.format("%-25s PHP %d\n", "Discount", discountPrice));
+            int discountPrice = 0;
+            if (discountCheckBox.isSelected()){
+                discountPrice = (int) Math.round(initialTotal * 0.20);
+                receiptText.append(String.format("%-25s PHP %d\n", "Discount", discountPrice));
+
+            }
+
+            int totalPrice = initialTotal - discountPrice;
             receiptText.append(String.format("%-25s PHP %d\n", "Total", totalPrice));
 
-                receiptArea.setText(receiptText.toString());
-                receiptArea.revalidate();
-                receiptArea.repaint();
+            receiptArea.setText(receiptText.toString());
+            receiptArea.revalidate();
+            receiptArea.repaint();
 
             });
 
