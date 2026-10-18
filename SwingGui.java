@@ -38,8 +38,9 @@ public class SwingGui {
             }
 
             JComboBox<String> drinkComboBox = new JComboBox<>(drinkNames);
-
             JComboBox<String> Quantity = new JComboBox<>(new String[] {"1", "2", "3", "4", "5"});
+            JCheckBox discountCheckBox = new JCheckBox("Senior Citizen/PWD 20% Discount");
+
 
             menuPanel.setBorder(BorderFactory.createTitledBorder("Menu"));
             optionPanel.setBorder(BorderFactory.createTitledBorder("Options"));
@@ -97,6 +98,9 @@ public class SwingGui {
             optionPanel.add(new JLabel("Select Quantity:"));
             optionPanel.add(Quantity);
             
+            optionPanel.add(new JLabel("Discount"));
+            optionPanel.add(discountCheckBox);
+
             JLabel selectedLabel = new JLabel("Selected: none");
             menuPanel.add(selectedLabel, BorderLayout.SOUTH);
 
@@ -125,9 +129,9 @@ public class SwingGui {
                 int SelectedDrinkIndex = drinkComboBox.getSelectedIndex();
                 String SelectedDrink = (String) drinkComboBox.getSelectedItem();
                 int drinkPrice = drinkPrices[SelectedDrinkIndex];
-                int quantity = Integer.parseInt((String) Quantity.getSelectedItem());
+                int quantityVal = Quantity.getSelectedIndex() + 1;
                 int takeOutFee = takeOut.isSelected() ? 15 : 0;
-                
+                                 
 
             // calculate add-ons total
             StringBuilder addOns = new StringBuilder();
@@ -140,7 +144,12 @@ public class SwingGui {
                 }
 
             int setPerPrice = dishPrice + addOnTotal + drinkPrice;
-            int totalPrice = setPerPrice * quantity + takeOutFee;
+            int initialTotal = setPerPrice * quantityVal + takeOutFee;
+            int discountPrice = 0;
+            if (discountCheckBox.isSelected()){
+                discountPrice = (int) Math.round(initialTotal * 0.20);
+            }
+            int totalPrice = initialTotal - discountPrice;
 
             // Receipt printing
             StringBuilder receiptText = new StringBuilder();
@@ -150,12 +159,12 @@ public class SwingGui {
                 receiptText.append(String.format("%-25s PHP %d\n", SelectedDrink, drinkPrice));
             }
             receiptText.append(String.format("%-25s PHP %d\n", "Per set", setPerPrice));
-            receiptText.append(String.format("%-25s PHP %d\n", "Quantity", quantity));
+            receiptText.append(String.format("%-25s     %d\n", "Quantity", quantityVal));
 
             if (takeOut.isSelected()) {
                     receiptText.append(String.format("%-25s PHP %d\n", "Take Out Fee", takeOutFee));
                 }
-            
+            receiptText.append(String.format("%-25s PHP %d\n", "Discount", discountPrice));
             receiptText.append(String.format("%-25s PHP %d\n", "Total", totalPrice));
 
                 receiptArea.setText(receiptText.toString());
