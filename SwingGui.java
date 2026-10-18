@@ -1,4 +1,4 @@
-//Anthony John Megrino & Mirkyla Nicolas
+//Anthony John Megriño & Mirkyla Nicolas
 
 import java.awt.*;
 import javax.swing.*;
