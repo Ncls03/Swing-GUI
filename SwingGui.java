@@ -48,11 +48,11 @@ public class SwingGui {
             orderTypeGroup.add(dineIn);
             orderTypeGroup.add(takeOut);
 
-            //add-ons and drinks
-            String[] addOnNames = {"extra rice", "extra egg", "extra toppings"};
-            int[] addOnPrices = {15, 20, 25};
-            String[] drinkNames = {"No drink","Water", "Iced Tea", "Soft Drink"};
-            int[] drinkPrices = {0, 15, 25, 30};
+            //Add-ons and Drinks
+            String[] addOnNames = {"Extra rice", "Fried egg", "Chili garlic"};
+            int[] addOnPrices = {15, 18, 8};
+            String[] drinkNames = {"No drink","Iced Tea", "Buko Juice", "Bottled Water"};
+            int[] drinkPrices = {0, 22, 28, 25};
 
             JCheckBox[] addOnBoxes = new JCheckBox[3];
 
@@ -208,6 +208,61 @@ public class SwingGui {
             if(answer != JOptionPane.YES_OPTION) {
                 return;
             }
+
+            // Cash and Change
+            double cashGiven = 0;
+            boolean validCash = false;
+
+            while (!validCash) {
+                String cashInput = JOptionPane.showInputDialog(
+                    frame,
+                    "Your total is PHP " + totalPrice + "\nEnter cash given:",
+                    "Cash Payment", JOptionPane.QUESTION_MESSAGE
+                );
+
+                if (cashInput == null) {
+                    return;
+                }
+
+                try {
+                    cashGiven = Double.parseDouble(cashInput);
+
+                    if (cashGiven < totalPrice) {
+                        JOptionPane.showMessageDialog(
+                            frame,
+                            "Insufficient cash. Please enter enough money.",
+                            "Insufficient Cash", JOptionPane.WARNING_MESSAGE
+                        );
+                    } else if (cashGiven < 0) {
+                        JOptionPane.showMessageDialog(
+                            frame,
+                            "Cash cannot be negative.",
+                            "Invalid Cash", JOptionPane.ERROR_MESSAGE
+                        );
+                    } else {
+                        validCash = true;
+                    }
+
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(
+                        frame,
+                        "Invalid input! Please enter a valid cash amount.",
+                        "Input Error", JOptionPane.ERROR_MESSAGE
+                    );
+                }
+            }
+
+            double change = cashGiven - totalPrice;
+
+            JOptionPane.showMessageDialog(
+                frame,
+                String.format(
+                    "Cash given: PHP %.2f\nTotal: PHP %d\nChange: PHP %.2f",
+                    cashGiven, totalPrice, change
+                ),
+                "Payment Successful",
+                JOptionPane.INFORMATION_MESSAGE
+            );
 
 
             // Queue Number
