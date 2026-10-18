@@ -73,7 +73,7 @@ public class SwingGui {
             // Menu Panel Layout
             menuPanel.setLayout(new BorderLayout(8, 8));
             menuPanel.add(new JScrollPane(dishList), BorderLayout.CENTER);
-            dishList.setFont(new Font("Arial", Font.PLAIN, 14));
+            dishList.setFont(dishList.getFont().deriveFont(14.0f));
 
             // Options Panel Layout
             optionPanel.setLayout(new BorderLayout(8, 8));
