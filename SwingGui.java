@@ -1,10 +1,11 @@
-//Anthony John Megriño & Mirkyla Nicolas
+// Anthony John Megriño & Mirkyla Nicolas
 
 import java.awt.*;
 import javax.swing.*;
 
 
 public class SwingGui {
+    static int queueNumber = 101;
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             JFrame frame = new JFrame("School Canteen Kiosk");
@@ -125,13 +126,21 @@ public class SwingGui {
 
             PlaceOrderButton.addActionListener(e -> {
                 int selectedDishIndex = dishList.getSelectedIndex();
+
+                // Warning Dialog
+                if(selectedDishIndex == - 1) {
+                    JOptionPane.showMessageDialog(frame, "Please pick a dish first.", 
+                    "Warning", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
                 int dishPrice = dishPrices[selectedDishIndex];
                 int SelectedDrinkIndex = drinkComboBox.getSelectedIndex();
                 String SelectedDrink = (String) drinkComboBox.getSelectedItem();
                 int drinkPrice = drinkPrices[SelectedDrinkIndex];
                 int quantityVal = Quantity.getSelectedIndex() + 1;
                 int takeOutFee = takeOut.isSelected() ? 15 : 0;
-                                 
+        
 
             // calculate add-ons total
             StringBuilder addOns = new StringBuilder();
@@ -170,9 +179,29 @@ public class SwingGui {
             int totalPrice = initialTotal - discountPrice;
             receiptText.append(String.format("%-25s PHP %d\n", "Total", totalPrice));
 
+            // Confirmation Dialog
+            int answer = JOptionPane.showConfirmDialog(frame, "Your total is PHP " + totalPrice +
+            ". Place this order?", "Confirmation", JOptionPane.YES_NO_OPTION);
+
+            if(answer != JOptionPane.YES_OPTION) {
+                return;
+            }
+
+
+            // Queue Number
+            int currentQueueNumber = queueNumber;
+
+            receiptText.append(String.format("%-25s %d\n", "Queue Number", currentQueueNumber));
+
             receiptArea.setText(receiptText.toString());
             receiptArea.revalidate();
             receiptArea.repaint();
+
+            // Information Dialog
+            JOptionPane.showMessageDialog(frame, "Thank you for your order!\nYour queue number is " +
+            currentQueueNumber + ".", "Order Sucessful", JOptionPane.INFORMATION_MESSAGE);
+
+            queueNumber++;
 
             });
 
